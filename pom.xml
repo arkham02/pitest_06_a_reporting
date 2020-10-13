@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.arkham.test</groupId>
+    <artifactId>pitest_reports</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+  
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.2.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.21.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.4.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>0.5</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <targetClasses>
+                        <param>com.wiredbraincoffee.reward.*</param>
+                    </targetClasses>
+			        <reportsDirectory>
+				        ${project.build.directory}/mutation-reports
+				    </reportsDirectory>
+				    <outputFormats>
+					    <value>XML</value>
+					    <value>HTML</value>
+						<value>CSV</value>
+					</outputFormats>
+					<timestampedReports>false</timestampedReports>
+                </configuration>
+             </plugin>
+			 <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-site-plugin</artifactId>
+			    <version>3.7.1</version>
+			</plugin>
+        </plugins>
+    </build>
+    
+    <reporting>
+	    <plugins>
+	        <plugin>
+	            <groupId>org.pitest</groupId>
+	            <artifactId>pitest-maven</artifactId>
+	            <version>1.4.0</version>
+	            <configuration>
+	                <reportsDirectory>${project.build.directory}/mutation-reports</reportsDirectory>
+	                <siteReportName>My Pitest report</siteReportName>
+	                <siteReportDescription>My custom description</siteReportDescription>
+	                <siteReportDirectory>pit-custom-site-directory</siteReportDirectory>
+	            </configuration>
+	            <reportSets>
+	                <reportSet>
+	                    <reports>
+	                        <report>report</report>
+	                    </reports>
+	                </reportSet>
+	            </reportSets>
+	        </plugin>
+	    </plugins>
+	</reporting>
+</project>
